@@ -18,19 +18,22 @@ def fetch_wikipedia_data(topic="Natural Language Processing", limit=10, data_dir
             print(f"The topic '{topic}' does not exist on Wikipedia.")
             return
         
-        # Retrieve subpages or categories
-        subpages = page.categorymembers
+        # Check if the page has any links and get a limited number of articles
+        linked_pages = page.links
+        
+        if not linked_pages:
+            print(f"No linked pages found for '{topic}'.")
+            return
         
         count = 0
-        for title, subpage in subpages.items():
+        for title, subpage in linked_pages.items():
             if count >= limit:
                 break
-            if subpage.ns == wikipediaapi.Namespace.MAIN:  # Ignore non-article pages
-                page_text = subpage.text
-                with open(f"{data_dir}/{title.replace('/', '-')}.txt", "w", encoding="utf-8") as file:
-                    file.write(page_text)
-                print(f"Saved {title}")
-                count += 1
+            page_text = subpage.text
+            with open(f"{data_dir}/{title.replace('/', '-')}.txt", "w", encoding="utf-8") as file:
+                file.write(page_text)
+            print(f"Saved {title}")
+            count += 1
 
         print("Data fetching complete.")
 
@@ -39,4 +42,3 @@ def fetch_wikipedia_data(topic="Natural Language Processing", limit=10, data_dir
 
 if __name__ == '__main__':
     fetch_wikipedia_data(topic="Artificial Intelligence", limit=10)
-
