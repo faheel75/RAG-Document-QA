@@ -1,7 +1,7 @@
 name: Fetch Wikipedia Data
 
 on:
-  workflow_dispatch:  # Allows to manually trigger the workflow
+  workflow_dispatch:  # Allows you to manually trigger the workflow
 
 jobs:
   fetch-data:
@@ -23,4 +23,11 @@ jobs:
 
     - name: Run the data fetch script
       run: |
-        python scripts/preprocess_data.py
+        python scripts/fetch_wikipedia_data.py
+
+    - name: Upload raw data
+      uses: actions/upload-artifact@v2
+      with:
+        name: raw-data
+        path: data/raw/
+
