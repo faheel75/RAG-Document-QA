@@ -1,5 +1,10 @@
 import wikipediaapi
 import os
+import re
+
+def sanitize_filename(title):
+    """Sanitize the filename by replacing invalid characters."""
+    return re.sub(r'[<>:"/\\|?*]', '', title)
 
 def fetch_wikipedia_data(topic="Natural Language Processing", limit=10, data_dir='data/raw'):
     try:
@@ -18,7 +23,7 @@ def fetch_wikipedia_data(topic="Natural Language Processing", limit=10, data_dir
             print(f"The topic '{topic}' does not exist on Wikipedia.")
             return
         
-        # Check if the page has any links and get a limited number of articles
+        # Get linked pages
         linked_pages = page.links
         
         if not linked_pages:
@@ -30,9 +35,10 @@ def fetch_wikipedia_data(topic="Natural Language Processing", limit=10, data_dir
             if count >= limit:
                 break
             page_text = subpage.text
-            with open(f"{data_dir}/{title.replace('/', '-')}.txt", "w", encoding="utf-8") as file:
+            sanitized_title = sanitize_filename(title)  # Sanitize the title for a valid filename
+            with open(f"{data_dir}/{sanitized_title}.txt", "w", encoding="utf-8") as file:
                 file.write(page_text)
-            print(f"Saved {title}")
+            print(f"Saved {sanitized_title}")
             count += 1
 
         print("Data fetching complete.")
