@@ -26,7 +26,7 @@ jobs:
         python scripts/fetch_wikipedia_data.py
 
     - name: Upload raw data
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: raw-data
         path: data/raw/
