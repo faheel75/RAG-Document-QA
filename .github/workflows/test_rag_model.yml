@@ -1,0 +1,46 @@
+name: Test RAG Model
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Run fetch_wikipedia_data script
+      - name: Fetch Wikipedia data
+        run: python scripts/fetch_wikipedia_data.py
+
+      # Step 5: Run preprocess_data script
+      - name: Preprocess data
+        run: python scripts/preprocess_data.py
+
+      # Step 6: Run build_index script
+      - name: Build FAISS index
+        run: python scripts/build_index.py
+
+      # Step 7: Run the rag_pipeline script to retrieve answers
+      - name: Test RAG pipeline
+        run: |
+          echo "Testing the retrieval and answer generation pipeline"
+          python -c "
