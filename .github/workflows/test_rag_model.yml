@@ -5,6 +5,11 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      question:
+        description: 'Enter the question for the RAG model'
+        required: true
+        default: 'What is Artificial Intelligence?'
 
 jobs:
   test:
@@ -44,5 +49,3 @@ jobs:
         run: |
           echo "Testing the retrieval and answer generation pipeline"
           python -c "import sys; import os; sys.path.append(os.path.join(os.getcwd(), 'scripts')); import rag_pipeline; query = '${{ github.event.inputs.question }}'; print(f'Question: {query}'); answer = rag_pipeline.answer_question(query); print(f'Answer: {answer}')"
-
-
