@@ -1,2 +1,7 @@
 wikipedia-api>=0.5.4  # Or check for the latest version
+transformers
+faiss-cpu
+torch
+sentence-transformers
+flask
 
