@@ -45,6 +45,7 @@ jobs:
         run: python scripts/build_index.py
 
       # Step 7: Test RAG pipeline
+     # Step 7: Test RAG pipeline
       - name: Test RAG pipeline
         run: |
           echo "Testing the retrieval and answer generation pipeline"
