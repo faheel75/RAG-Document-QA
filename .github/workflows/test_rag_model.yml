@@ -39,15 +39,18 @@ jobs:
       - name: Build FAISS index
         run: python scripts/build_index.py
 
-      # Step 7: Run the rag_pipeline script to retrieve answers
+      # Step 7: Test RAG pipeline
       - name: Test RAG pipeline
         run: |
           echo "Testing the retrieval and answer generation pipeline"
-          python -c "
-      import rag_pipeline
-      query = '${{ github.event.inputs.question }}'
-      print(f'Question: {query}')
-      answer = rag_pipeline.answer_question(query)
-      print(f'Answer: {answer}')
-      "
+          python -c |
+            import sys
+            import os
+            sys.path.append(os.path.join(os.getcwd(), 'scripts'))  # Add the scripts directory to the path
+            import rag_pipeline
+
+            query = '${{ github.event.inputs.question }}'
+            print(f'Question: {query}')
+            answer = rag_pipeline.answer_question(query)
+            print(f'Answer: {answer}')
 
