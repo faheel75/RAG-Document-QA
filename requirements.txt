@@ -1,7 +1,7 @@
-wikipedia-api>=0.5.4  # Or check for the latest version
-transformers
+wikipedia-api>=0.5.4  # Or check for the latest versiontransformers
+sentencepiece
 faiss-cpu
-torch
 sentence-transformers
-flask
+wikipedia-api
+Flask
 
