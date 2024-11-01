@@ -44,3 +44,10 @@ jobs:
         run: |
           echo "Testing the retrieval and answer generation pipeline"
           python -c "
+      import rag_pipeline
+      query = '${{ github.event.inputs.question }}'
+      print(f'Question: {query}')
+      answer = rag_pipeline.answer_question(query)
+      print(f'Answer: {answer}')
+      "
+
